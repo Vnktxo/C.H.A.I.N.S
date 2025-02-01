@@ -11,7 +11,7 @@ const Navbar = ({ hasScrolled }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Check if MetaMask is installed
+  
   useEffect(() => {
     if (typeof window !== "undefined" && window.ethereum) {
       console.log("MetaMask detected");
@@ -20,7 +20,7 @@ const Navbar = ({ hasScrolled }) => {
     }
   }, []);
 
-  // Connect Wallet Function
+
   const connectWallet = async () => {
     if (!window.ethereum) {
       alert("MetaMask not detected! Please install MetaMask.");
@@ -33,7 +33,7 @@ const Navbar = ({ hasScrolled }) => {
       });
 
       if (accounts.length > 0) {
-        setWalletAddress(accounts[0]); // Save connected wallet address
+        setWalletAddress(accounts[0]); 
         console.log("Connected Address:", accounts[0]);
       } else {
         alert("No accounts found!");
