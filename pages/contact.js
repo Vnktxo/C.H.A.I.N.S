@@ -1,143 +1,177 @@
-// pages/Contact.js
 import React, { useState, useEffect } from 'react';
-import { ethers } from "ethers";
-import { useRouter } from "next/router";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { Menu, User } from 'lucide-react';
 
-const Contact = () => {
-    const [walletAddress, setWalletAddress] = useState("");
-    const [error, setError] = useState("");
-    const [isConnecting, setIsConnecting] = useState(false);
-    const router = useRouter();
+const WalletPage = () => {
+  const [walletAddress, setWalletAddress] = useState('');
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [error, setError] = useState('');
 
-    // Function to connect wallet
-    const connectWallet = async () => {
-        setError(""); // Clear any previous errors
-        setIsConnecting(true);
-        
-        if (window.ethereum) {
-            try {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const accounts = await provider.send("eth_requestAccounts", []);
-                setWalletAddress(accounts[0]);
-            } catch (error) {
-                // Handle specific error cases
-                if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
-                    setError("Connection rejected. Please approve the connection request in your wallet.");
-                } else if (error.code === -32002) {
-                    setError("Please check your MetaMask. A connection request is already pending.");
-                } else {
-                    setError("Failed to connect wallet. Please try again.");
-                    console.error("Detailed wallet error:", error);
-                }
-            } finally {
-                setIsConnecting(false);
-            }
+  const connectWallet = async () => {
+    setError('');
+    setIsConnecting(true);
+    
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ 
+          method: 'eth_requestAccounts' 
+        });
+        setWalletAddress(accounts[0]);
+      } catch (error) {
+        if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
+          setError('Connection rejected. Please approve the connection request.');
+        } else if (error.code === -32002) {
+          setError('Please check your MetaMask. A connection request is pending.');
         } else {
-            setError("MetaMask not detected. Please install MetaMask to continue.");
-            setIsConnecting(false);
+          setError('Failed to connect wallet. Please try again.');
+          console.error('Wallet error:', error);
         }
-    };
+      } finally {
+        setIsConnecting(false);
+      }
+    } else {
+      setError('MetaMask not detected. Please install MetaMask.');
+      setIsConnecting(false);
+    }
+  };
 
-    // Auto-connect if wallet was connected before
-    useEffect(() => {
-        if (window.ethereum) {
-            window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
-                if (accounts.length > 0) {
-                    setWalletAddress(accounts[0]);
-                }
-            }).catch((err) => {
-                console.error("Error checking wallet connection:", err);
-            });
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.request({ method: 'eth_accounts' })
+        .then((accounts) => {
+          if (accounts.length > 0) {
+            setWalletAddress(accounts[0]);
+          }
+        })
+        .catch(console.error);
 
-            // Listen for account changes
-            window.ethereum.on('accountsChanged', (accounts) => {
-                if (accounts.length > 0) {
-                    setWalletAddress(accounts[0]);
-                } else {
-                    setWalletAddress("");
-                }
-            });
+      const handleAccountsChanged = (accounts) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+        } else {
+          setWalletAddress('');
         }
+      };
 
-        // Cleanup listener on component unmount
-        return () => {
-            if (window.ethereum && window.ethereum.removeListener) {
-                window.ethereum.removeListener('accountsChanged', () => {});
-            }
-        };
-    }, []);
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
 
-    return (
-        <div className="min-h-screen bg-gray-900 text-white">
-            <Navbar />
-            
-            <div className="container mx-auto px-6 py-8">
-                <h1 className="text-center text-3xl mt-10 mb-5">Contact Us</h1>
-                <p className="text-center mb-12">Feel free to reach out for more information.</p>
+      return () => {
+        if (window.ethereum?.removeListener) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        }
+      };
+    }
+  }, []);
 
-                <div className="max-w-3xl mx-auto">
-                    {/* Wallet Connection */}
-                    <div className="flex flex-col md:flex-row justify-between items-center bg-gray-800 p-6 rounded-lg mb-8 gap-4">
-                        <h2 className="text-2xl font-bold">Your Profile</h2>
-                        <div className="flex flex-col items-center md:items-end gap-2">
-                            {!walletAddress ? (
-                                <button
-                                    onClick={connectWallet}
-                                    disabled={isConnecting}
-                                    className={`bg-blue-600 px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${isConnecting ? 'opacity-50' : ''}`}
-                                >
-                                    {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-                                </button>
-                            ) : (
-                                <p className="text-sm bg-gray-700 px-4 py-2 rounded-md">
-                                    Wallet: {walletAddress.substring(0, 6)}...
-                                    {walletAddress.substring(walletAddress.length - 4)}
-                                </p>
-                            )}
-                            {error && (
-                                <p className="text-red-400 text-sm text-center md:text-right">
-                                    {error}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Investments Section */}
-                    <div className="bg-gray-800 p-6 rounded-lg mb-8">
-                        <h2 className="text-2xl font-semibold mb-4">Current Investments</h2>
-                        <p className="text-gray-400">No investments yet.</p>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button
-                            onClick={() => router.push("/request-funding")}
-                            className="bg-green-600 px-4 py-3 rounded-md hover:bg-green-700 transition-colors w-full disabled:opacity-50"
-                            disabled={!walletAddress}
-                        >
-                            Request Funding
-                        </button>
-                        <button
-                            onClick={() => router.push("/projects")}
-                            className="bg-purple-600 px-4 py-3 rounded-md hover:bg-purple-700 transition-colors w-full disabled:opacity-50"
-                            disabled={!walletAddress}
-                        >
-                            Explore Projects
-                        </button>
-                    </div>
-                    {!walletAddress && (
-                        <p className="text-gray-400 text-sm text-center mt-4">
-                            Please connect your wallet to access these features
-                        </p>
-                    )}
-                </div>
+  return (
+    <div className="min-h-screen bg-black">
+      {/* Black Navbar */}
+      <nav className="bg-black border-b border-purple-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <a href="/" className="text-white text-[2.5rem] font-bold">
+                CHAINS
+              </a>
             </div>
-            
-            <Footer />
+
+            <div className="flex items-center">
+              {!walletAddress ? (
+                <button
+                  onClick={connectWallet}
+                  disabled={isConnecting}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                >
+                  {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                </button>
+              ) : (
+                <div className="flex items-center gap-3 bg-gray-800 px-4 py-2 rounded-md">
+                  <div className="bg-white p-2 rounded-full">
+                    <User className="h-5 w-5 text-gray-300" />
+                  </div>
+                  <span className="text-sm text-white">
+                    {walletAddress.substring(0, 6)}...{walletAddress.substring(walletAddress.length - 4)}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-    );
+
+        {error && (
+          <div className="bg-red-500 text-white text-sm px-4 py-2 text-center">
+            {error}
+          </div>
+        )}
+      </nav>
+
+      {/* Main Content - 2x2 Grid */}
+      <div className="container mx-auto px-16 py-32">
+        <div className="grid grid-cols-2 gap-1">
+          {/* Profile Card */}
+          <div className="bg-black rounded-lg p-6">
+            <h2 className="text-[2rem] font-bold text-white mb-4">Profile</h2>
+            {walletAddress ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="bg-white p-3 rounded-full">
+                    <User className="h-8 w-8 text-gray-300" />
+                  </div>
+                  <div>
+                    <p className="text-white">Connected Wallet</p>
+                    <p className="text-sm text-white break-all">{walletAddress}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-400">Please connect your wallet to view profile</p>
+            )}
+          </div>
+
+          {/* Explore Projects Card */}
+          <div className="bg-black p-6 rounded-lg">
+            <h2 className="text-[2rem] font-bold text-white mb-4">Explore Projects</h2>
+            <p className="text-white mb-6">
+              Discover and invest in innovative projects across various sectors.
+            </p>
+            <button 
+              onClick={() => window.location.href = '/projects'}
+              className="w-full bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-900 transition-colors"
+              disabled={!walletAddress}
+            >
+              View All Projects
+            </button>
+          </div>
+
+          {/* Current Investments Card */}
+          <div className="bg-black rounded-lg p-6">
+            <h2 className="text-[2rem] font-bold text-white mb-4">Current Investments</h2>
+            <div className="space-y-2">
+              {walletAddress ? (
+                <p className="text-[1rem] text-white">No active investments found</p>
+              ) : (
+                <p className="text-white">Connect wallet to view investments</p>
+              )}
+            </div>
+          </div>
+
+          {/* Request Funding Card */}
+          <div className="bg-black p-6 rounded-lg">
+            <h2 className="text-[2rem] font-bold text-white mb-4">Request Funding</h2>
+            <p className="text-white mb-6">
+              Submit your project for funding and connect with potential investors.
+            </p>
+            <button 
+              onClick={() => window.location.href = '/request-funding'}
+              className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-900 transition-colors"
+              disabled={!walletAddress}
+            >
+              Start Request
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Contact;
+export default WalletPage;
