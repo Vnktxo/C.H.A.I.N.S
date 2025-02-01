@@ -112,10 +112,9 @@ body {
   animation: prixClipFix 2s linear;
   animation-delay: 0.8s;
 }
-.min-h-screen{
-  max-height: 100vh;
+.max-h-screen{
   mask-image: linear-gradient(
-    180deg,
+    90deg,
     transparent 0%,
     rgb(0, 0, 0) 20%,
     rgb(0, 0, 0) 80%,
@@ -124,11 +123,10 @@ body {
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent 0%,
-    rgb(2, 0, 0) 20%,
+    white 20%,
     white 80%,
     transparent 100%
-  );
-  
+  )
 }
 
 @keyframes prixClipFix {

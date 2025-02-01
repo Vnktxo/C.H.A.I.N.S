@@ -63,25 +63,23 @@ const WalletPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Black Navbar */}
-      <nav className="bg-black border-b border-purple-600">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#b2af00] to-black">
+      {/* Navbar */}
+      <nav className="bg-black border-b border-yellow-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <a href="/" className="text-white text-[2.5rem] font-bold">
-                CHAINS
-              </a>
-            </div>
+            <a href="/" className="text-white text-[2.2rem] font-bold">
+              CHAINS
+            </a>
 
             <div className="flex items-center">
               {!walletAddress ? (
                 <button
                   onClick={connectWallet}
                   disabled={isConnecting}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition-all duration-300 disabled:opacity-50"
                 >
-                  {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                  {isConnecting ? "Connecting..." : "Connect Wallet"}
                 </button>
               ) : (
                 <div className="flex items-center gap-3 bg-gray-800 px-4 py-2 rounded-md">
@@ -89,14 +87,14 @@ const WalletPage = () => {
                     <User className="h-5 w-5 text-gray-300" />
                   </div>
                   <span className="text-sm text-white">
-                    {walletAddress.substring(0, 6)}...{walletAddress.substring(walletAddress.length - 4)}
+                    {walletAddress.substring(0, 6)}...
+                    {walletAddress.substring(walletAddress.length - 4)}
                   </span>
                 </div>
               )}
             </div>
           </div>
         </div>
-
         {error && (
           <div className="bg-red-500 text-white text-sm px-4 py-2 text-center">
             {error}
@@ -104,11 +102,11 @@ const WalletPage = () => {
         )}
       </nav>
 
-      {/* Main Content - 2x2 Grid */}
-      <div className="container mx-auto px-16 py-32">
-        <div className="grid grid-cols-2 gap-1">
+      {/* Main Content */}
+      <div className="container mx-auto px-16 py-24">
+        <div className="grid grid-cols-2 gap-6">
           {/* Profile Card */}
-          <div className="bg-black rounded-lg p-6">
+          <div className="bg-[#000000] border border-gray-700 rounded-xl p-6 shadow-lg">
             <h2 className="text-[2rem] font-bold text-white mb-4">Profile</h2>
             {walletAddress ? (
               <div className="space-y-4">
@@ -123,19 +121,19 @@ const WalletPage = () => {
                 </div>
               </div>
             ) : (
-              <p className="text-gray-400">Please connect your wallet to view profile</p>
+              <p className="text-white">Please connect your wallet to view profile</p>
             )}
           </div>
 
           {/* Explore Projects Card */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-[#000000] border border-gray-700 rounded-xl p-6 shadow-lg">
             <h2 className="text-[2rem] font-bold text-white mb-4">Explore Projects</h2>
             <p className="text-white mb-6">
               Discover and invest in innovative projects across various sectors.
             </p>
-            <button 
-              onClick={() => window.location.href = '/projects'}
-              className="w-full bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-900 transition-colors"
+            <button
+              onClick={() => (window.location.href = "/projects")}
+              className="w-full bg-yellow-600 text-white px-6 py-3 rounded-lg hover:bg-yellow-900 transition-all duration-300"
               disabled={!walletAddress}
             >
               View All Projects
@@ -143,7 +141,7 @@ const WalletPage = () => {
           </div>
 
           {/* Current Investments Card */}
-          <div className="bg-black rounded-lg p-6">
+          <div className="bg-[#000000] border border-gray-700 rounded-xl p-6 shadow-lg">
             <h2 className="text-[2rem] font-bold text-white mb-4">Current Investments</h2>
             <div className="space-y-2">
               {walletAddress ? (
@@ -155,14 +153,14 @@ const WalletPage = () => {
           </div>
 
           {/* Request Funding Card */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-[#000000] border border-gray-700 rounded-xl p-6 shadow-lg">
             <h2 className="text-[2rem] font-bold text-white mb-4">Request Funding</h2>
             <p className="text-white mb-6">
               Submit your project for funding and connect with potential investors.
             </p>
-            <button 
-              onClick={() => window.location.href = '/request-funding'}
-              className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-900 transition-colors"
+            <button
+              onClick={() => (window.location.href = "/request-funding")}
+              className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-900 transition-all duration-300"
               disabled={!walletAddress}
             >
               Start Request
