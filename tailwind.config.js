@@ -33,7 +33,7 @@ module.exports = {
       },
 
       backgroundImage: {
-        hero: 'linear-gradient(rgba(90,56,253,.4),transparent 70%,transparent)',
+        hero: 'linear-gradient(rgba(0,0,0,.5),transparent 70%,transparent)',
         community:
           'linear-gradient(to bottom, #d4f717aa 50%, transparent 100%);',
         footer: 'linear-gradient(to top, #DD44B9 0%, transparent 100%);',

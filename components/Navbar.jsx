@@ -1,20 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ColoredHamBurger from "@/assets/burger-menu-colored.svg";
 import WhiteHamBurger from "@/assets/burger-menu-white.svg";
 
 const Navbar = ({ hasScrolled }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const downloadWallet = () => {
-    window.open(
-      "http://localhost:3000",
-      "_blank" // <- This is what makes it open in a new window.
-    );
+  // Check if MetaMask is installed
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.ethereum) {
+      console.log("MetaMask detected");
+    } else {
+      console.warn("MetaMask not detected");
+    }
+  }, []);
+
+  // Connect Wallet Function
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      alert("MetaMask not detected! Please install MetaMask.");
+      return;
+    }
+
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      if (accounts.length > 0) {
+        setWalletAddress(accounts[0]); // Save connected wallet address
+        console.log("Connected Address:", accounts[0]);
+      } else {
+        alert("No accounts found!");
+      }
+    } catch (error) {
+      console.error("Wallet connection failed:", error);
+      alert("Error connecting wallet. Check console for details.");
+    }
   };
 
   return (
@@ -22,24 +49,24 @@ const Navbar = ({ hasScrolled }) => {
       {/* Desktop and Tablet View */}
       <div className="max-w-[1340px] py-[10px] mx-auto flex items-center justify-between px-4">
         <div className="flex items-center">
-    
           <div className="hidden lg:block pl-[20px] text-[#ffffff] text-[2rem] font-bold">
             CHAINS
           </div>
         </div>
         <div className="hidden md:flex gap-4">
-          
           <button
-            onClick={downloadWallet}
-            className="px-5 py-2 bg-white text-black rounded-[14px] font-medium hover:bg-secondary"
+            onClick={connectWallet}
+            className="px-5 py-2 bg-white text-black rounded-[14px] font-medium hover:bg-white"
           >
-            Connect Wallet
+            {walletAddress
+              ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
+              : "Connect Wallet"}
           </button>
         </div>
         {/* Mobile Menu Button */}
         <div
           onClick={toggleMenu}
-          className={`md:hidden w-[62px] h-[62px] flex items-center justify-center cursor-pointer rounded-[10px] ${isMenuOpen && "bg-primary"}`}
+          className={`md:hidden w-[62px] h-[62px] flex items-center justify-center cursor-pointer rounded-[10px] ${isMenuOpen && "bg-white"}`}
         >
           <Image
             src={isMenuOpen ? WhiteHamBurger : ColoredHamBurger}
@@ -62,14 +89,13 @@ const Navbar = ({ hasScrolled }) => {
           <p className="py-2 px-4 text-primary-text">Features</p>
           <p className="py-2 px-4 text-primary-text">Pricing</p>
           <div className="flex flex-col pt-4 gap-4">
-            <button className="px-5 py-2 text-[#333] bg-gray-100 hover:bg-gray-200 rounded-[12px] font-medium">
-              Talk to Sales
-            </button>
             <button
-              onClick={downloadWallet}
-              className="px-5 py-2 bg-primary text-white rounded-[12px] font-medium hover:bg-secondary"
+              onClick={connectWallet}
+              className="px-5 py-2 bg-white text-black rounded-[12px] font-medium hover:bg-white"
             >
-              Download Wallet
+              {walletAddress
+                ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
+                : "Connect Wallet"}
             </button>
           </div>
         </div>

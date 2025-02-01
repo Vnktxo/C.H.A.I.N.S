@@ -3,13 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import { BsArrowRight } from 'react-icons/bs';
 
 const data = [
-  'writers',
-  'tweeters',
-  'podcasters',
-  'discordists',
-  'streamers',
-  'communiteers',
-  'nfteers',
+  'அனைவரும்',
+  'Everyone',
+  'सब लोग',
+  'అందరూ',
+  'ಎಲ್ಲರೂs',
+  'प्रत्येकं',
+  'എല്ലാവരും',
 ];
 
 const CommunityClone = () => {
@@ -328,14 +328,14 @@ const CommunityClone = () => {
     <div className="bg-community  overflow-hidden  small-lg:px-[3%] relative">
       <div className="py-[4rem] small-lg:pt-[6.4rem] small-lg:pb-[1.6rem] w-full small-lg:max-w-[1280px] max-w-none mx-auto">
         {/* Heading */}
-        <div className="text-[#1E213A] small-lg:text-center mb-[1.5rem] max-w-[640px] small-lg:max-w-none mx-auto small-lg:mx-auto px-[5%] small-lg:px-[0%] small-lg:mb-[4rem]">
-          <div className="text-[1rem] uppercase font-medium leading-[1.2] break-words">
-            Communities come in all shapes and sizes
+        <div className="text-[#000000] small-lg:text-center mb-[1.5rem] max-w-[640px] small-lg:max-w-none mx-auto small-lg:mx-auto px-[5%] small-lg:px-[0%] small-lg:mb-[4rem]">
+          <div className="text-[2rem] uppercase font-medium leading-[1.2] break-words">
+            Investing Communities come in all shapes and sizes
           </div>
         </div>
         {/* Swipper */}
         <div className="w-full">
-          <div className="small-lg:grid text-[#1E213A] grid-cols-auto w-full gap-[48px]">
+          <div className="small-lg:grid text-[#000000] grid-cols-auto w-full gap-[48px]">
             {/* Left */}
             <div className="small-lg:max-w-[420px]  flex flex-col gap-[36px] small-lg:text-right small-lg:items-end justify-start">
               <div className="relative">
@@ -370,14 +370,14 @@ const CommunityClone = () => {
                 </div>
               </div>
               {/* Marquee ends */}
-              <div className="flex flex-col text-[#1E213A] small-lg:items-end small-lg:justify-start leading-[1.7] text-[20px] gap-[24px] mt-[4rem] small-lg:mt-0 max-w-[640px] mx-auto w-full px-[5%] small-lg:px-[0%]">
+              <div className="flex flex-col text-[#000000] small-lg:items-end small-lg:justify-start leading-[1.7] text-[20px] gap-[24px] mt-[4rem] small-lg:mt-0 max-w-[640px] mx-auto w-full px-[5%] small-lg:px-[0%]">
                 <div className="small-lg:flex hidden text-right tracking-tight text-[20px]">
-                  Embrace the revolution with our state-of-the-art Web3 Wallet.
+                  Embrace the revolution with our state-of-the-art Web3 Platform.
                   Seamlessly access blockchain applications, manage your assets,
                   and experience true financial freedom.
                 </div>
                 <div className="small-lg:hidden flex tracking-tighter  text-[20px]">
-                  Embrace the revolution with our state-of-the-art Web3 Wallet.
+                  Embrace the revolution with our state-of-the-art Web3 Platform.
                   Seamlessly access blockchain applications, manage your assets,
                   and experience true financial freedom.
                 </div>
@@ -389,15 +389,15 @@ const CommunityClone = () => {
                 </Link>
               </div>
             </div>
-            <div className="small-lg:block hidden w-full h-full relative overflow-visible text-[#1E213A]">
+            <div className="small-lg:block hidden w-full h-full relative overflow-visible text-[#000000]">
               <div ref={swapperRef} className="h-[792px] relative">
-                <div className="text-[104px] leading-[1.1]">writers</div>
-                <div className="text-[104px] leading-[1.1]">tweeters</div>
-                <div className="text-[104px] leading-[1.1]">podcasters</div>
-                <div className="text-[104px] leading-[1.1]">discordists</div>
-                <div className="text-[104px] leading-[1.1]">streamers</div>
-                <div className="text-[104px] leading-[1.1]">communiteers</div>
-                <div className="text-[104px] leading-[1.1]">nfteers</div>
+                <div className="text-[104px] leading-[1.1]">அனைவரும்</div>
+                <div className="text-[104px] leading-[1.1]">Everyone</div>
+                <div className="text-[104px] leading-[1.1]">అందరూ </div>
+                <div className="text-[104px] leading-[1.1]">सब लोग</div>
+                <div className="text-[104px] leading-[1.1]">എല്ലാവരും</div>
+                <div className="text-[104px] leading-[1.1]">ಎಲ್ಲರೂ</div>
+                <div className="text-[104px] leading-[1.1]">प्रत्येकं</div>
               </div>
             </div>
           </div>

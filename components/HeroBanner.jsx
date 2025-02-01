@@ -140,8 +140,8 @@ const HeroBanner = () => {
         <div className="grid grid-cols-1 md:grid-cols-2  gap-[8rem] overflow-hidden ">
           <div className="flex flex-col ">
             <h1 className=" capitalize  mb-4">
-              <span className="text-[2rem] xh:text-[2.4rem] xs:text-[2.85rem]  xv:text-[3.5rem] xr:text-[3.8rem] sm:text-[3.75rem] font-black leading-[1.5] tracking-[-0.01em] lg:whitespace-nowrap font-CabinetGrotesk-Bold">
-                A Crypto wallet &
+              <span className="text-[4rem] xh:text-[2.4rem] xs:text-[2.85rem]  xv:text-[3.5rem] xr:text-[3.8rem] sm:text-[3.75rem] font-black leading-[1.5] tracking-[-0.01em] lg:whitespace-nowrap font-CabinetGrotesk-Bold">
+                INVESTMENTS -
               </span>
               <span className="text-[2rem] xh:text-[2.4rem] xs:text-[2.85rem] xv:text-[3.5rem] xr:text-[3.8rem] sm:text-[3.75rem] block font-black leading-[1.5] tracking-[-0.01em]  font-CabinetGrotesk-Bold  whitespace-nowrap">
               One Block at a TIME.

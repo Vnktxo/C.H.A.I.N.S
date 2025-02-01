@@ -115,7 +115,7 @@ const Swapper = () => {
                   key={item.id}
                   className={`text-[1.125rem] flex justify-start items-center font-semibold font-CabinetGrotesk-Medium px-5 py-[14px] border rounded-[10px] leading-[1.125rem]  relative  ${
                     active === item.id
-                      ? 'text-white bg-[#091d20] border-[#C9F270]'
+                      ? 'text-black bg-[#dde33b] border-[#ffffff]'
                       : 'text-[#24244f]  border-[#d9d9d9]'
                   } `}>
                   <span
@@ -161,7 +161,7 @@ const Swapper = () => {
                 key={item.id}
                 className={`flex-shrink-0 w-[calc(100%-0.5rem)]`}>
                 <div className="p-7 h-full flex flex-col items-center  border border-[#24244f] rounded-2xl">
-                  <p className="text-[#C9F270]  text-[1rem] mobile-md:text-[1.25rem] text-center leading-[1.25rem] font-bold">
+                  <p className="text-[#f8fb51]  text-[1rem] mobile-md:text-[1.25rem] text-center leading-[1.25rem] font-bold">
                     {item.name}
                   </p>
                   <p className="font-bold mt-2 text-[4.5rem] mobile-md:text-[5.75rem] leading-[72px] tracking-[-0.01rem] text-center text-[#24244f]">
