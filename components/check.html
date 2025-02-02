@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Contract Interaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.9/dist/ethers.umd.min.js"></script>
+</head>
+
+<body>
+    <h1>Check if a User is Verified</h1>
+    <button id="checkVerificationBtn">Check Verification</button>
+    <div id="result"></div>
+
+    <script>
+        // Initialize the provider (Metamask or any Ethereum provider)
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        // Contract ABI (Interface)
+        const abi = [
+            "function verifyAadhaar(bytes32 proofHash) public",
+            "function isVerified(address user) public view returns (bool)"
+        ];
+
+        // Contract address (make sure it's correct)
+        const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+
+        // Create a contract instance
+        const contract = new ethers.Contract(contractAddress, abi, provider);
+
+        // Check if the contract exists by calling a method (like `isVerified`)
+        const checkVerification = async (userAddress) => {
+            try {
+                // Request the user's Ethereum account from MetaMask
+                await provider.send("eth_requestAccounts", []);
+
+                // Get the signer from the provider (which gives us the user's wallet)
+                const signer = provider.getSigner();
+
+                // Check if the user is verified
+                const isVerified = await contract.isVerified(userAddress);
+
+                // Output result
+                document.getElementById('result').innerText = `Is the user verified? ${isVerified}`;
+                console.log("Is the user verified?", isVerified);
+            } catch (error) {
+                console.error("Error checking contract:", error);
+                document.getElementById('result').innerText = `Error checking contract: ${error.message}`;
+            }
+        };
+
+        // When the user clicks the button, check verification for the provided address
+        document.getElementById("checkVerificationBtn").onclick = () => {
+            const userAddress = prompt("Enter the user's Ethereum address:");
+            if (userAddress) {
+                checkVerification(userAddress);
+            }
+        };
+    </script>
+</body>
+
+</html>
